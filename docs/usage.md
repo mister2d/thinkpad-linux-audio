@@ -91,14 +91,17 @@ export EE_DATA="$HOME/.local/share/easyeffects"   # adjust for Flatpak if needed
 mkdir -p "$EE_DATA/irs"
 mkdir -p "$EE_DATA/output"
 
-# Copy impulse response files (required by the Convolver stage)
+# Copy impulse response files (required by both preset sets)
 cp assets/thinkpad-z16-gen1/irs/*.irs "$EE_DATA/irs/"
 
-# Copy preset JSON files
-cp assets/thinkpad-z16-gen1/presets/*.json "$EE_DATA/output/"
+# Copy the enhanced presets (recommended)
+cp assets/thinkpad-z16-gen1/presets/enhanced/*.json "$EE_DATA/output/"
+
+# Optionally also copy the Dolby originals for reference/comparison
+# cp assets/thinkpad-z16-gen1/presets/dolby/*.json "$EE_DATA/output/"
 ```
 
-The IRS files must be in the `irs/` subdirectory. The preset JSON files reference them by filename stem (e.g., `"kernel-name": "Dolby-Music-Balanced"`), and EasyEffects resolves that name relative to its `irs/` directory at runtime.
+The IRS files must be in the `irs/` subdirectory. The preset JSON files reference them by filename stem (e.g., `"kernel-name": "Dolby-Music-Balanced"`), and EasyEffects resolves that name relative to its `irs/` directory at runtime. Both the enhanced (`Z16-*`) and Dolby original (`Dolby-*`) presets share the same IRS files.
 
 ---
 
@@ -107,13 +110,13 @@ The IRS files must be in the `irs/` subdirectory. The preset JSON files referenc
 1. Launch EasyEffects.
 2. In the main window, click the **Output** tab (speaker icon).
 3. Click the preset dropdown or the presets button in the top bar.
-4. Select `Dolby-Music-Balanced` as a starting point.
+4. Select `Z16-Music-Balanced` as a starting point.
 5. The pipeline activates immediately. You should hear a noticeable difference in bass response, stereo width, and overall tonal balance.
 
 If the preset loads but the Convolver stage shows an error or plays silence, verify that the `.irs` files are in the correct directory and that the filename matches the `kernel-name` value in the JSON. You can inspect it:
 
 ```bash
-python3 -m json.tool "$EE_DATA/output/Dolby-Music-Balanced.json" | grep kernel-name
+python3 -m json.tool "$EE_DATA/output/Z16-Music-Balanced.json" | grep kernel-name
 # Expected: "kernel-name": "Dolby-Music-Balanced"
 ```
 
@@ -121,7 +124,7 @@ python3 -m json.tool "$EE_DATA/output/Dolby-Music-Balanced.json" | grep kernel-n
 
 ## Choosing a preset
 
-**Start with `Dolby-Music-Balanced`.** It is the closest analogue to Dolby's default Music profile with neutral tonal balance. Most users will find this the best general-purpose preset.
+**Start with `Z16-Music-Balanced`.** It applies Lenovo's acoustic correction with the enhanced pipeline and neutral tonal balance. Most users will find this the best general-purpose preset.
 
 **Tone variants:**
 - `Balanced` — neutral reference, closest to Lenovo's measured target
@@ -129,10 +132,12 @@ python3 -m json.tool "$EE_DATA/output/Dolby-Music-Balanced.json" | grep kernel-n
 - `Warm` — reduces presence-range brightness; useful if you find the default response harsh or fatiguing
 
 **Profile differences:**
-- `Music` — no stereo widening; dynamics processing optimised for music content
+- `Music` — no stereo widening; good for music listening
 - `Dynamic` — adds stereo widening via the Stereo Tools stage; good for general desktop use and mixed content
 - `Movie` — stereo widening plus dialog enhancement at 2.5 kHz; best for video content
 - `Voice` / `Voice_Onlinecourse` — stronger dialog enhancement; best for calls, podcasts, lectures
+
+**Enhanced vs Dolby originals:** The `Z16-*` enhanced presets are recommended for everyday use. The `Dolby-*` originals are useful for comparison or experimentation — on Linux they will sound noticeably more compressed and quieter due to the multiband compressor operating without Dolby's MI engine.
 
 ---
 

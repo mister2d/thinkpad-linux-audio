@@ -26,55 +26,88 @@ flatpak install flathub com.github.wwmm.easyeffects
 mkdir -p ~/.local/share/easyeffects/irs
 mkdir -p ~/.local/share/easyeffects/output
 
-# 3. Copy assets
+# 3. Copy the shared IRS files (required by both preset sets)
 cp assets/thinkpad-z16-gen1/irs/*.irs ~/.local/share/easyeffects/irs/
-cp assets/thinkpad-z16-gen1/presets/*.json ~/.local/share/easyeffects/output/
 
-# 4. Launch EasyEffects, open the Output presets panel, and load:
-#    Dolby-Music-Balanced   (recommended starting point)
+# 4. Copy your preferred preset set (see below)
+cp assets/thinkpad-z16-gen1/presets/enhanced/*.json ~/.local/share/easyeffects/output/
+
+# 5. Launch EasyEffects, open the Output presets panel, and load:
+#    Z16-Music-Balanced   (recommended starting point)
 ```
+
+---
+
+## Preset sets
+
+Two preset sets are provided for the Z16 Gen 1. Both use the same IRS impulse response files (Lenovo's speaker correction).
+
+### Enhanced (`presets/enhanced/`) — recommended
+
+Derived from the Dolby DAX3 data but with the MI-dependent compression chain removed and replaced with stages that work correctly without Dolby's Windows-only Media Intelligence engine. The result is Lenovo's acoustic correction with better perceived clarity, louder output, and no compression artefacts.
+
+| Change from Dolby originals | Reason |
+|---|---|
+| Multiband compressor removed | Requires Dolby MI signal classifier to operate correctly; causes audible compression artefacts on Linux |
+| Exciter added (5.5 kHz+, 8th-order harmonics) | Restores perceived clarity and air in the frequency range above the IEQ correction bands |
+| Autogain enabled at −14 LUFS | Bypassed in Dolby originals due to MI dependency; re-enabled with a conservative target |
+| Voice profiles gain an autogain stage | Absent from the Dolby Voice pipeline; useful for call and speech normalisation |
+| Limiter gain-boost enabled + 4× oversampling | Brings output level in line with expectations; cleaner peak interception |
+
+### Dolby originals (`presets/dolby/`) — reference
+
+A faithful translation of Lenovo's DAX3 tuning data. Useful as a reference or if you want to experiment with re-enabling the compression stages. On Linux without Dolby's MI engine, these presets will sound noticeably compressed and quieter than intended.
 
 ---
 
 ## Available presets
 
-Each preset is a full 8-stage EasyEffects output pipeline derived from Lenovo's DAX3 tuning data. Profiles come from the Dolby DAX3 spec; the three tone variants (Balanced / Detailed / Warm) reflect different IEQ (Intelligent EQ) target curves tuned for the Z16's speaker array.
+### Enhanced set (`Z16-*`)
 
-| Preset file | Dolby profile | Tone variant | Notes |
+| Preset | Dolby profile | Tone | Pipeline |
 |---|---|---|---|
-| `Dolby-Music-Balanced` | Music | Balanced | **Recommended default** |
-| `Dolby-Music-Detailed` | Music | Detailed | Brighter high-frequency emphasis |
-| `Dolby-Music-Warm` | Music | Warm | Reduced highs, fuller low-mids |
-| `Dolby-Dynamic-Balanced` | Dynamic | Balanced | Adds stereo widening; good for mixed content |
-| `Dolby-Dynamic-Detailed` | Dynamic | Detailed | |
-| `Dolby-Dynamic-Warm` | Dynamic | Warm | |
-| `Dolby-Movie-Balanced` | Movie | Balanced | Dialog enhancement + surround widening |
-| `Dolby-Movie-Detailed` | Movie | Detailed | |
-| `Dolby-Movie-Warm` | Movie | Warm | |
-| `Dolby-Game-Balanced` | Game | Balanced | |
-| `Dolby-Game-Detailed` | Game | Detailed | |
-| `Dolby-Game-Warm` | Game | Warm | |
-| `Dolby-Voice-Balanced` | Voice | Balanced | Speech intelligibility boost |
-| `Dolby-Voice-Detailed` | Voice | Detailed | |
-| `Dolby-Voice-Warm` | Voice | Warm | |
-| `Dolby-Voice_Onlinecourse-*` | Voice (lecture) | All three | Optimised for spoken-word content |
-| `Dolby-Personalize_User1/2/3-*` | User presets | All three | Blank personalization slots from DAX3 |
+| `Z16-Music-Balanced` | Music | Balanced | convolver → exciter → autogain → limiter |
+| `Z16-Music-Detailed` | Music | Detailed | ↑ |
+| `Z16-Music-Warm` | Music | Warm | ↑ |
+| `Z16-Dynamic-Balanced` | Dynamic | Balanced | convolver → stereo_tools → eq → exciter → autogain → limiter |
+| `Z16-Dynamic-Detailed` | Dynamic | Detailed | ↑ |
+| `Z16-Dynamic-Warm` | Dynamic | Warm | ↑ |
+| `Z16-Movie-Balanced` | Movie | Balanced | convolver → stereo_tools → eq → exciter → autogain → limiter |
+| `Z16-Movie-Detailed` | Movie | Detailed | ↑ |
+| `Z16-Movie-Warm` | Movie | Warm | ↑ |
+| `Z16-Game-Balanced` | Game | Balanced | convolver → exciter → autogain → limiter |
+| `Z16-Game-Detailed` | Game | Detailed | ↑ |
+| `Z16-Game-Warm` | Game | Warm | ↑ |
+| `Z16-Voice-Balanced` | Voice | Balanced | convolver → eq → exciter → autogain → limiter |
+| `Z16-Voice-Detailed` | Voice | Detailed | ↑ |
+| `Z16-Voice-Warm` | Voice | Warm | ↑ |
+| `Z16-Voice_Onlinecourse-Balanced` | Voice (lecture) | Balanced | ↑ |
+| `Z16-Voice_Onlinecourse-Detailed` | Voice (lecture) | Detailed | ↑ |
+| `Z16-Voice_Onlinecourse-Warm` | Voice (lecture) | Warm | ↑ |
+
+**Start with `Z16-Music-Balanced`.** For video content use `Z16-Dynamic-Balanced` (adds stereo widening). For calls and speech use `Z16-Voice-Balanced`.
+
+### Tone variants
+
+All profiles come in three IEQ (Intelligent EQ) tonal variants derived from Lenovo's DAX3 tuning data:
+
+- **Balanced** — neutral reference, closest to Lenovo's measured acoustic target
+- **Detailed** — presence-range emphasis; useful if the speakers sound dull
+- **Warm** — reduced brightness; useful if you find the default response fatiguing
 
 ---
 
-## Pipeline stages
+## Stage reference
 
-The DSP pipeline in these presets directly mirrors what Dolby DAX3 applies on Windows:
-
-| Stage | What it does |
-|---|---|
-| **Convolver** | FIR impulse response encoding the IEQ target curve + audio-optimizer speaker correction |
-| **Stereo Tools** | Surround widening (Dynamic and Movie profiles only) |
-| **Equalizer** | 100 Hz 4th-order high-pass filter + per-speaker parametric EQ |
-| **Autogain** | EBU R128 volume leveler (preserved but bypassed by default — see [docs/background.md](docs/background.md#autogain)) |
-| **Multiband Compressor** | Frequency-band dynamics control decoded from Dolby's DSP coefficients |
-| **Regulator** | Per-band limiter derived from Dolby `threshold_high` values |
-| **Limiter** | Brickwall at −1 dBFS |
+| Stage | Present in | What it does |
+|---|---|---|
+| **Convolver** | All | Minimum-phase FIR encoding Lenovo's IEQ correction + per-channel audio-optimizer gains |
+| **Stereo Tools** | Dynamic, Movie | Surround widening from Dolby's virtualizer coefficients |
+| **Equalizer** | Dynamic, Movie, Voice | 100 Hz 4th-order high-pass (speaker protection) + profile-specific PEQ |
+| **Exciter** | All (enhanced only) | Synthetic harmonics above 5.5 kHz; restores perceived clarity |
+| **Autogain** | All (enhanced); Music/Dynamic/Movie/Game (Dolby) | EBU R128 loudness normalisation |
+| **Multiband Compressor** | Dolby originals only | MI-dependent dynamics; removed from enhanced set |
+| **Limiter** | All | Brickwall at −1 dBFS; gain-boost enabled in enhanced set |
 
 ---
 
@@ -101,4 +134,4 @@ If you have a different ThinkPad model: see [docs/reproduce.md](docs/reproduce.m
 
 The `.irs` and `.json` files in `assets/` are computed from `DEV_0287_SUBSYS_17AA22F2_PCI_SUBSYS_22F217AA.xml`, which is Lenovo's official Dolby DAX3 tuning file for the ThinkPad Z16 Gen 1. This XML is distributed by Lenovo inside the signed Windows audio driver package `n3ga127w.exe`, available from Lenovo's support site. It is included here for transparency and reproducibility verification.
 
-The conversion was performed with [antoinecellerier/speaker-tuning-to-easyeffects](https://github.com/antoinecellerier/speaker-tuning-to-easyeffects). The scripts and documentation in this repository are MIT-licensed. The derived audio assets carry Lenovo's original distribution terms; they are provided here under the same basis as binary firmware files distributed by the linux-firmware project — sourced from the vendor, redistributed for hardware compatibility.
+The Dolby-original presets were generated with [antoinecellerier/speaker-tuning-to-easyeffects](https://github.com/antoinecellerier/speaker-tuning-to-easyeffects). The enhanced presets were derived from those via `scripts/generate-enhanced-presets.py`. The scripts and documentation in this repository are MIT-licensed. The derived audio assets carry Lenovo's original distribution terms; they are provided here under the same basis as binary firmware files distributed by the linux-firmware project — sourced from the vendor, redistributed for hardware compatibility.
