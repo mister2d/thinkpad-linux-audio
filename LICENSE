@@ -1,0 +1,40 @@
+MIT License
+
+Copyright (c) 2024 contributors to thinkpad-linux-audio
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+NOTICE — Audio Assets
+
+The files in assets/*/irs/ (*.irs), assets/*/presets/ (*.json), and
+assets/*/source/ (*.xml) are derived from or identical to data distributed
+by Lenovo Group Limited as part of the ThinkPad audio driver package
+(n3ga127w.exe, driver ID DS557051). The Dolby DAX3 tuning data is
+copyright Lenovo Group Limited and/or Dolby Laboratories. These files are
+included here under the same rationale as binary firmware files distributed
+by projects such as linux-firmware: they are vendor-supplied, unmodified
+(source XML) or mechanically derived (IRS and JSON) hardware configuration
+data necessary for correct hardware operation on Linux. No reverse
+engineering of executable code was performed. All data was extracted from
+the official, publicly available Lenovo driver package.
+
+If you are Lenovo or Dolby and have concerns about this distribution, please
+open an issue.

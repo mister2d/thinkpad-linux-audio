@@ -1,0 +1,24 @@
+# Extraction working directories
+extracted/
+inno-extracted/
+generated/
+dolby-extract/
+
+# Downloaded driver executables
+*.exe
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Converter clone cache (scripts cache it in ~/.cache)
+speaker-tuning-to-easyeffects/
+
+# Editor files
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
