@@ -5,8 +5,8 @@ generate-enhanced-presets.py
 Derives the Z16-* enhanced preset set from the Dolby-* source presets.
 
 What changes vs the Dolby originals:
-  - multiband_compressor#1 removed (MI-dependent; causes compression artefacts
-    without Dolby's Media Intelligence steering)
+  - multiband_compressor#1 removed (classifier-dependent; causes compression artefacts
+    without the Windows DAX3 APO's signal classifier)
   - exciter#0 added (synthetic harmonics above 5.5 kHz; restores perceived
     clarity and air that the Z16 speakers roll off above the IEQ correction range)
   - autogain enabled at -14 LUFS (bypassed in Dolby originals)

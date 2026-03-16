@@ -44,19 +44,19 @@ Two preset sets are provided for the Z16 Gen 1. Both use the same IRS impulse re
 
 ### Enhanced (`presets/enhanced/`) — recommended
 
-Derived from the Dolby DAX3 data but with the MI-dependent compression chain removed and replaced with stages that work correctly without Dolby's Windows-only Media Intelligence engine. The result is Lenovo's acoustic correction with better perceived clarity, louder output, and no compression artefacts.
+Derived from the Dolby DAX3 data but with the signal-dependent compression chain removed and replaced with stages that work correctly without the Windows DAX3 APO. The result is Lenovo's acoustic correction with better perceived clarity, louder output, and no compression artefacts.
 
 | Change from Dolby originals | Reason |
 |---|---|
-| Multiband compressor removed | Requires Dolby MI signal classifier to operate correctly; causes audible compression artefacts on Linux |
+| Multiband compressor removed | Requires the Windows DAX3 APO's content classifier to operate correctly; causes audible compression artefacts on Linux |
 | Exciter added (5.5 kHz+, 8th-order harmonics) | Restores perceived clarity and air in the frequency range above the IEQ correction bands |
-| Autogain enabled at −14 LUFS | Bypassed in Dolby originals due to MI dependency; re-enabled with a conservative target |
+| Autogain enabled at −14 LUFS | Bypassed in Dolby originals due to classifier dependency; re-enabled with a conservative target |
 | Voice profiles gain an autogain stage | Absent from the Dolby Voice pipeline; useful for call and speech normalisation |
 | Limiter gain-boost enabled + 4× oversampling | Brings output level in line with expectations; cleaner peak interception |
 
 ### Dolby originals (`presets/dolby/`) — reference
 
-A faithful translation of Lenovo's DAX3 tuning data. Useful as a reference or if you want to experiment with re-enabling the compression stages. On Linux without Dolby's MI engine, these presets will sound noticeably compressed and quieter than intended.
+A faithful translation of Lenovo's DAX3 tuning data. Useful as a reference or if you want to experiment with re-enabling the compression stages. On Linux, without the Windows DAX3 APO, these presets will sound noticeably compressed and quieter than intended.
 
 ---
 
@@ -106,8 +106,12 @@ All profiles come in three IEQ (Intelligent EQ) tonal variants derived from Leno
 | **Equalizer** | Dynamic, Movie, Voice | 100 Hz 4th-order high-pass (speaker protection) + profile-specific PEQ |
 | **Exciter** | All (enhanced only) | Synthetic harmonics above 5.5 kHz; restores perceived clarity |
 | **Autogain** | All (enhanced); Music/Dynamic/Movie/Game (Dolby) | EBU R128 loudness normalisation |
-| **Multiband Compressor** | Dolby originals only | MI-dependent dynamics; removed from enhanced set |
+| **Multiband Compressor** | Dolby originals only | Classifier-dependent dynamics; removed from enhanced set |
 | **Limiter** | All | Brickwall at −1 dBFS; gain-boost enabled in enhanced set |
+
+The diagram below shows all three signal paths side by side, with frequency-response sketches and notes on the two stages added in the enhanced set. See [docs/background.md](docs/background.md) for the full technical explanation.
+
+![DSP pipeline comparison](docs/dsp_pipeline_comparison.svg)
 
 ---
 

@@ -137,7 +137,7 @@ python3 -m json.tool "$EE_DATA/output/Z16-Music-Balanced.json" | grep kernel-nam
 - `Movie` — stereo widening plus dialog enhancement at 2.5 kHz; best for video content
 - `Voice` / `Voice_Onlinecourse` — stronger dialog enhancement; best for calls, podcasts, lectures
 
-**Enhanced vs Dolby originals:** The `Z16-*` enhanced presets are recommended for everyday use. The `Dolby-*` originals are useful for comparison or experimentation — on Linux they will sound noticeably more compressed and quieter due to the multiband compressor operating without Dolby's MI engine.
+**Enhanced vs Dolby originals:** The `Z16-*` enhanced presets are recommended for everyday use. The `Dolby-*` originals are useful for comparison or experimentation — on Linux they will sound noticeably more compressed and quieter due to the multiband compressor operating without the Windows DAX3 APO's signal classifier.
 
 ---
 

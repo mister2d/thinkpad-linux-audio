@@ -40,7 +40,7 @@ DAX3 is Dolby's *Device Audio eXperience* version 3, a Windows kernel-mode audio
 
 ### A note on autogain
 
-The autogain stage is bypassed in the generated presets because it depends on Dolby's *Media Intelligence* signal classifier, which runs on Windows and categorises incoming audio as speech, music, or silence. Without the classifier steering the autogain, the EBU R128 algorithm applies gain increases to quiet passages that then clip on louder transients. The settings are preserved in the JSON so the stage can be enabled manually via the EasyEffects UI, but blind activation is not recommended.
+The autogain stage is bypassed in the generated presets because it depends on a signal classifier built into the Windows DAX3 APO, which categorises incoming audio as speech, music, or silence. Without the classifier steering the autogain, the EBU R128 algorithm applies gain increases to quiet passages that then clip on louder transients. The settings are preserved in the JSON so the stage can be enabled manually via the EasyEffects UI, but blind activation is not recommended.
 
 ---
 
@@ -67,6 +67,10 @@ The result is audio that works, and that technically reproduces what was recorde
 An EasyEffects *output preset* is a JSON file that defines the plugin chain and its parameters for the speaker output path. It references `.irs` files (impulse response files in WAV-compatible format) for convolver stages and encodes all other parameters directly as floating-point values.
 
 By loading one of the presets in this repository, EasyEffects reconstructs the full DAX3 DSP chain as a PipeWire graph, applying the speaker correction, compression, and limiting that Lenovo's engineers designed for the hardware.
+
+The diagram below compares the three signal paths and illustrates the differences between the Dolby baseline presets and the enhanced set, including a sketch of the frequency-response effect of each new stage.
+
+![DSP pipeline comparison](dsp_pipeline_comparison.svg)
 
 ---
 
