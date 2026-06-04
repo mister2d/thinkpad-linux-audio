@@ -9,6 +9,7 @@ Pre-generated EasyEffects presets are provided for the following hardware. These
 | Model | Machine types | PCI subsystem ID | Codec | Assets |
 |---|---|---|---|---|
 | ThinkPad Z16 Gen 1 | 21D4, 21D5 | `17AA22F2` | ALC287 (DEV_0287) | `assets/thinkpad-z16-gen1/` |
+| ThinkPad X1 Carbon Gen 13 | 21NS, 21NT | `17AA:2339` | rt712-sdca | `assets/thinkpad-x1c-gen13/` |
 
 ---
 
