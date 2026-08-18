@@ -18,7 +18,7 @@ they encode Lenovo's speaker-specific correction and are the reason to use
 these presets at all rather than a generic EQ.
 
 Usage:
-    python3 scripts/generate-enhanced-presets.py [--dolby-dir PATH] [--out-dir PATH]
+    python3 scripts/generate-enhanced-presets.py [--dolby-dir PATH] [--out-dir PATH] [--prefix NAME]
 """
 
 import json
@@ -123,6 +123,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dolby-dir", default=DEFAULT_DOLBY_DIR)
     parser.add_argument("--out-dir", default=DEFAULT_OUT_DIR)
+    parser.add_argument("--prefix", default="Z16")
     args = parser.parse_args()
 
     os.makedirs(args.out_dir, exist_ok=True)
@@ -152,7 +153,7 @@ def main():
 
         enhanced = transform(dolby, profile)
 
-        out_name = f"Z16-{profile}-{tone}.json"
+        out_name = f"{args.prefix}-{profile}-{tone}.json"
         out_path = os.path.join(args.out_dir, out_name)
         with open(out_path, "w") as f:
             json.dump(enhanced, f, indent=4)
