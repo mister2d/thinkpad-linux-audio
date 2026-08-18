@@ -85,8 +85,10 @@ fi
 
 # ── Locate the DAX3 XML ───────────────────────────────────────────────────────
 
-DAX3_DIR=$(find "$DRIVER_DIR" -type d -name "ext_thinkpad" -path "*/dax3/*" | head -1)
-[[ -d "$DAX3_DIR" ]] || die "Could not find Dolby/dax3/ext_thinkpad/ inside $DRIVER_DIR"
+# Realtek package: Dolby/dax3/ext_thinkpad/. Synaptics-Conexant package
+# (e.g. n2nac15w.exe for P53/P73): Dolby/ext_thinkpad_AIO_syna_*/.
+DAX3_DIR=$(find "$DRIVER_DIR" -type d \( -name "ext_thinkpad" -path "*/dax3/*" -o -name "ext_thinkpad_AIO_syna*" \) | head -1)
+[[ -d "$DAX3_DIR" ]] || die "Could not find Dolby/dax3/ext_thinkpad/ or Dolby/ext_thinkpad_AIO_syna_*/ inside $DRIVER_DIR"
 
 # Try exact match first; fall back to glob
 XML_FILE=$(find "$DAX3_DIR" -name "DEV_*_SUBSYS_${FULL_SUBSYS}_*.xml" ! -name "*_settings.xml" | head -1)

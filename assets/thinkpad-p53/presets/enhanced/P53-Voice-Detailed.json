@@ -1,0 +1,91 @@
+{
+    "output": {
+        "blocklist": [],
+        "convolver#0": {
+            "bypass": false,
+            "input-gain": 0.0,
+            "output-gain": 0.0,
+            "kernel-name": "Dolby-Voice-Detailed",
+            "ir-width": 100,
+            "autogain": false
+        },
+        "plugins_order": [
+            "convolver#0",
+            "equalizer#1",
+            "exciter#0",
+            "autogain#0",
+            "limiter#0"
+        ],
+        "equalizer#1": {
+            "bypass": false,
+            "input-gain": 0.0,
+            "output-gain": 0.0,
+            "mode": "IIR",
+            "num-bands": 1,
+            "split-channels": false,
+            "left": {
+                "band0": {
+                    "frequency": 2500.0,
+                    "gain": 1.12,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 0.7,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "Bell",
+                    "width": 4.0
+                }
+            },
+            "right": {
+                "band0": {
+                    "frequency": 2500.0,
+                    "gain": 1.12,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 0.7,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "Bell",
+                    "width": 4.0
+                }
+            }
+        },
+        "limiter#0": {
+            "bypass": false,
+            "input-gain": 0.0,
+            "output-gain": 0.0,
+            "mode": "Herm Thin",
+            "oversampling": "Half x4(3L)",
+            "dithering": "None",
+            "sidechain-type": "Internal",
+            "lookahead": 1.0,
+            "attack": 1.0,
+            "release": 5.0,
+            "threshold": -1.0,
+            "gain-boost": true,
+            "stereo-link": 100.0,
+            "alr": false,
+            "sidechain-preamp": 0.0
+        },
+        "autogain#0": {
+            "bypass": false,
+            "input-gain": 0.0,
+            "output-gain": 0.0,
+            "maximum-history": 15,
+            "reference": "Geometric Mean (MSI)",
+            "silence-threshold": -70.0,
+            "target": -14.0
+        },
+        "exciter#0": {
+            "bypass": false,
+            "input-gain": -2.0,
+            "output-gain": 0.0,
+            "amount": 5.0,
+            "harmonics": 8.0,
+            "scope": 5500.0,
+            "ceil": 16000.0,
+            "ceil-active": false,
+            "blend": 0.0
+        }
+    }
+}
