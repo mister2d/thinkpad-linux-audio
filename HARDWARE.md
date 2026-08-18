@@ -10,6 +10,9 @@ Pre-generated EasyEffects presets are provided for the following hardware. These
 |---|---|---|---|---|
 | ThinkPad Z16 Gen 1 | 21D4, 21D5 | `17AA22F2` | ALC287 (DEV_0287) | `assets/thinkpad-z16-gen1/` |
 | ThinkPad X1 Carbon Gen 13 | 21NS, 21NT | `17AA:2339` | rt712-sdca | `assets/thinkpad-x1c-gen13/` |
+| ThinkPad P53 | 20QN, 20QQ | `17AA2297` | CX11880 (DEV_1F86) | `assets/thinkpad-p53/` \* |
+
+\* P53: the extracted tuning values (speaker EQ, volmax boost, leveler target) are verified on hardware through an equivalent PipeWire filter-chain; the EasyEffects presets themselves are pipeline-generated and have not been listened to in EasyEffects yet.
 
 ---
 
@@ -115,6 +118,18 @@ ls extracted/code\$GetExtractPath\$/Dolby/dax3/ext_thinkpad/DEV_0257_*.xml | \
 ```
 
 after extracting the driver package per [docs/reproduce.md](docs/reproduce.md).
+
+---
+
+### Conexant/Synaptics ThinkPads — CX11880 (DEV_1F86)
+
+Intel workstation ThinkPads with the Conexant CX11880 codec are covered by a separate driver package: `n2nac15w.exe` ("Synaptics Audio Driver" for ThinkPad P53/P73). Its internal layout differs from the Realtek package (`Dolby/ext_thinkpad_AIO_syna_*/` instead of `Dolby/dax3/ext_thinkpad/`); `scripts/generate-presets.sh` handles both. On Windows this codec runs on the Intel SST bus and the whole DAX3 chain executes host-side, so nothing of the tuning reaches the codec — the same extraction and conversion applies unchanged.
+
+| PCI subsystem ID | Notes |
+|---|---|
+| `17AA2297` | ThinkPad P53 — **pre-generated** (`assets/thinkpad-p53/`) |
+
+This package contains DAX3 tuning for this single subsystem ID (endpoint `internal_speaker` only).
 
 ---
 
